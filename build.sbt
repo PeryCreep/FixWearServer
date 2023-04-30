@@ -4,25 +4,34 @@ ThisBuild / scalaVersion := "2.13.10"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "FixWearServer"
+    name := "FixWearServer",
+    libraryDependencies ++= akkaDependencies ++ slickDependencies ++ passwordHashDependencies ++ catsDependencies
   )
+
+lazy val authenticationModule = (project in file("authentication"))
+  .settings(
+    name := "authentication-module",
+  )
+  .dependsOn(root % "compile->compile")
 
 lazy val akkaVersion = "2.8.0"
 lazy val catsVersion = "3.4.9"
+lazy val catsCoreVersion = "2.9.0"
 lazy val akkaHttpVersion = "10.5.1"
 lazy val slickVersion = "3.4.1"
 lazy val slf4jVersion = "2.0.5"
 
-libraryDependencies ++= akkaDependencies ++ catsDependencies ++ slickDependencies
 
 
 lazy val akkaDependencies = Seq(
   "com.typesafe.akka" %% "akka-actor-typed" % akkaVersion,
   "com.typesafe.akka" %% "akka-stream" % akkaVersion,
-  "com.typesafe.akka" %% "akka-http" % akkaHttpVersion
+  "com.typesafe.akka" %% "akka-http" % akkaHttpVersion,
+  "com.typesafe.akka" %% "akka-http-spray-json" % "10.5.1"
 )
 
 lazy val catsDependencies = Seq(
+  "org.typelevel" %% "cats-core" % catsCoreVersion,
   "org.typelevel" %% "cats-effect" % catsVersion
 )
 
@@ -32,5 +41,12 @@ lazy val testDependencies = Seq(
 
 lazy val slickDependencies = Seq(
   "com.typesafe.slick" %% "slick" % slickVersion,
-  "org.slf4j" % "slf4j-nop" % slf4jVersion
+  "com.typesafe.slick" %% "slick-hikaricp" % slickVersion,
+  "org.postgresql" % "postgresql" % "42.5.4",
+  "org.slf4j" % "slf4j-nop" % slf4jVersion,
+  "com.typesafe" % "config" % "1.4.2"
+)
+
+lazy val passwordHashDependencies = Seq(
+  "com.outr" %% "scalapass" % "1.2.5"
 )
