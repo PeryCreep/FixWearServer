@@ -5,22 +5,22 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import model.User
 import model.UserJson.jsonFormat
-import perycreep.Main.databaseName
+import perycreep.Main.materializer.system
 import perycreep.Main.system.dispatcher
-import repositories.PostgresUserRepository
+import repositories.user.PostgresUserRepository
 import services.auth.UserService
-import slick.jdbc.JdbcBackend.Database
+import utils.DBUtils.DBUtils.db
 
 import scala.util.{Failure, Success}
 
 
-object authRoutes {
-  val db = Database.forConfig(databaseName)
+object AuthRoutes {
   lazy val userService = new UserService(PostgresUserRepository(db))
   val routes: Route = pathPrefix("users") {
     path("register") {
       post {
         entity(as[User]) { user =>
+          println("request was send")
           val result = userService.createUser(user)
           onComplete(result) {
             case Success(_) => complete("Регистрация прошла успешно")

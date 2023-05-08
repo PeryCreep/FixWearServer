@@ -8,12 +8,6 @@ lazy val root = (project in file("."))
     libraryDependencies ++= akkaDependencies ++ slickDependencies ++ passwordHashDependencies ++ catsDependencies
   )
 
-lazy val authenticationModule = (project in file("authentication"))
-  .settings(
-    name := "authentication-module",
-  )
-  .dependsOn(root % "compile->compile")
-
 lazy val akkaVersion = "2.8.0"
 lazy val catsVersion = "3.4.9"
 lazy val catsCoreVersion = "2.9.0"
@@ -50,3 +44,9 @@ lazy val slickDependencies = Seq(
 lazy val passwordHashDependencies = Seq(
   "com.outr" %% "scalapass" % "1.2.5"
 )
+
+assemblyMergeStrategy in assembly := {
+  case PathList("reference.conf") => MergeStrategy.concat
+  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+  case x => MergeStrategy.first
+}

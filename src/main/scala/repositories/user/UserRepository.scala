@@ -1,4 +1,4 @@
-package repositories
+package repositories.user
 
 import model.User
 
