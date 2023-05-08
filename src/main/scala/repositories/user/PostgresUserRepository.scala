@@ -9,7 +9,6 @@ import scala.concurrent.{ExecutionContext, Future}
 class PostgresUserRepository(db: Database)(implicit ec: ExecutionContext) extends UserRepository[Future] {
 
   def create(user: User): Future[User] = {
-    println("create user")
     val action = (users returning users.map(_.id) into ((user, id) => user.copy(id = id))) += user
     db.run(action)
   }

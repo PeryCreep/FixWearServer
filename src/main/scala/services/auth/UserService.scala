@@ -19,7 +19,6 @@ class UserService(userRepository: UserRepository[Future]) {
             name = newUser.name,
             isOrganization = newUser.isOrganization
           )
-          println("User " + user)
           userRepository.create(user)
     }
   }
