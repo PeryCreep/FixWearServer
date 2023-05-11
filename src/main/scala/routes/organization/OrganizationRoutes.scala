@@ -8,18 +8,21 @@ import repositories.organization.PostgresOrganizationRepository
 import services.organization.OrgService
 import spray.json.JsArray
 import utils.DBUtils.DBUtils.db
+import utils.WebTokensUtils.AuthMiddleware.authMiddleware
 
 object OrganizationRoutes {
   val orgService = new OrgService(PostgresOrganizationRepository(db = db))
-  val routes: Route = {
+  val routes: Route =
     pathPrefix("organizations") {
+      println("organization request")
       path("all") {
         get {
-          onSuccess(orgService.getAll()){ organizations =>
-            complete(JsArray(organizations.map(_.toJson).toVector))
+          authMiddleware { _ =>
+            onSuccess(orgService.getAll()) { organizations =>
+              complete(JsArray(organizations.map(_.toJson).toVector))
+            }
           }
         }
       }
     }
-  }
 }
