@@ -13,6 +13,7 @@ import akka.http.scaladsl.server.Directives._
 import scala.concurrent.ExecutionContextExecutor
 
 object Main extends App {
+  val host = "localhost"//todo сделать конфигурацию
   lazy val databaseName = "fixWearDb"
   val db = Database.forConfig(databaseName)
   val users = TableQuery[Users]
@@ -23,7 +24,7 @@ object Main extends App {
 
   private val mainRoutes = AuthRoutes.routes ~ OrganizationRoutes.routes
 
-  val bindingFuture = Http().bindAndHandle(mainRoutes, "77.232.135.171", 8080)
+  val bindingFuture = Http().bindAndHandle(mainRoutes, host, 8080)
 
-  println(s"Server online at http://localhost:8080/")
+  println(s"Server online at http://$host:8080/")
 }

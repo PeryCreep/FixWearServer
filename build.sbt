@@ -5,7 +5,12 @@ ThisBuild / scalaVersion := "2.13.10"
 lazy val root = (project in file("."))
   .settings(
     name := "FixWearServer",
-    libraryDependencies ++= akkaDependencies ++ slickDependencies ++ passwordHashDependencies ++ catsDependencies
+    libraryDependencies ++=
+      akkaDependencies ++
+      slickDependencies ++
+      passwordHashDependencies ++
+      catsDependencies ++
+      webTokensDependencies
   )
 
 lazy val akkaVersion = "2.8.0"
@@ -43,6 +48,10 @@ lazy val slickDependencies = Seq(
 
 lazy val passwordHashDependencies = Seq(
   "com.outr" %% "scalapass" % "1.2.5"
+)
+
+lazy val webTokensDependencies = Seq(
+  "com.auth0" % "java-jwt" % "4.3.0"
 )
 
 assemblyMergeStrategy in assembly := {
