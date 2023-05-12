@@ -2,6 +2,7 @@ package services.auth
 
 import model.User
 import repositories.user.UserRepository
+import utils.WebTokensUtils.TokensUtils.{Token, generateToken}
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,7 +20,6 @@ class UserService(userRepository: UserRepository[Future]) {
             name = newUser.name,
             isOrganization = newUser.isOrganization
           )
-          println("User " + user)
           userRepository.create(user)
     }
   }
@@ -32,9 +32,9 @@ class UserService(userRepository: UserRepository[Future]) {
     userRepository.findById(id)
   }
 
-  def authenticateUser(email: String, password: String): Future[Either[String, User]] = {
+  def authenticateUser(email: String, password: String): Future[Either[String, Token]] = {
     findUserByEmail(email).map {
-      case Some(user) if password == user.hashedPassword => Right(user)
+      case Some(user) if password == user.hashedPassword => Right(generateToken(user.id.toString))
       case Some(_) => Left("Пароль неверный")
       case None => Left("Пользователь не найден")
     }

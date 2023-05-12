@@ -20,7 +20,6 @@ object AuthRoutes {
     path("register") {
       post {
         entity(as[User]) { user =>
-          println("request was send")
           val result = userService.createUser(user)
           onComplete(result) {
             case Success(_) => complete("Регистрация прошла успешно")
