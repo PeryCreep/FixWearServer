@@ -1,7 +1,7 @@
 package services.auth
 
 import model.User
-import repositories.UserRepository
+import repositories.user.UserRepository
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -19,6 +19,7 @@ class UserService(userRepository: UserRepository[Future]) {
             name = newUser.name,
             isOrganization = newUser.isOrganization
           )
+          println("User " + user)
           userRepository.create(user)
     }
   }

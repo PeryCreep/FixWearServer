@@ -1,7 +1,7 @@
-package repositories
+package repositories.user
 
 import model.{User, Users}
-import repositories.PostgresUserRepository.users
+import repositories.user.PostgresUserRepository.users
 import slick.jdbc.PostgresProfile.api._
 import slick.jdbc.meta.MTable
 
@@ -9,6 +9,7 @@ import scala.concurrent.{ExecutionContext, Future}
 class PostgresUserRepository(db: Database)(implicit ec: ExecutionContext) extends UserRepository[Future] {
 
   def create(user: User): Future[User] = {
+    println("create user")
     val action = (users returning users.map(_.id) into ((user, id) => user.copy(id = id))) += user
     db.run(action)
   }

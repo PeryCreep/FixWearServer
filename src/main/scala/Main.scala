@@ -4,9 +4,11 @@ import akka.actor.ActorSystem
 import model.Users
 import akka.http.scaladsl._
 import akka.stream.ActorMaterializer
-import routes.auth.authRoutes.routes
+import routes.auth.AuthRoutes
+import routes.organization.OrganizationRoutes
 import slick.jdbc.JdbcBackend.Database
 import slick.lifted.TableQuery
+import akka.http.scaladsl.server.Directives._
 
 import scala.concurrent.ExecutionContextExecutor
 
@@ -19,9 +21,9 @@ object Main extends App {
   implicit val materializer: ActorMaterializer = ActorMaterializer()
   implicit val ec: ExecutionContextExecutor = system.dispatcher
 
-  private val mainRoutes = routes
+  private val mainRoutes = AuthRoutes.routes ~ OrganizationRoutes.routes
 
-  val bindingFuture = Http().bindAndHandle(mainRoutes, "localhost", 8080)
+  val bindingFuture = Http().bindAndHandle(mainRoutes, "77.232.135.171", 8080)
 
   println(s"Server online at http://localhost:8080/")
 }
