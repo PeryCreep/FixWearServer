@@ -14,7 +14,6 @@ object OrganizationRoutes {
   val orgService = new OrgService(PostgresOrganizationRepository(db = db))
   val routes: Route =
     pathPrefix("organizations") {
-      println("organization request")
       path("all") {
         get {
           authMiddleware { _ =>
