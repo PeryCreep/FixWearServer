@@ -9,4 +9,8 @@ class OrgService(orgRepository: OrganizationRepository[Future]) {
   def getAll(): Future[Seq[Organization]] = {
     orgRepository.getAll
   }
+
+  def getByOwnerId(id: Long) = {
+    orgRepository.getByOwnerId(id)
+  }
 }
