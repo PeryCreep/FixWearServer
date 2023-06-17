@@ -10,7 +10,8 @@ lazy val root = (project in file("."))
       slickDependencies ++
       passwordHashDependencies ++
       catsDependencies ++
-      webTokensDependencies
+      webTokensDependencies ++
+      configDependencies
   )
 
 lazy val akkaVersion = "2.8.0"
@@ -52,6 +53,10 @@ lazy val passwordHashDependencies = Seq(
 
 lazy val webTokensDependencies = Seq(
   "com.auth0" % "java-jwt" % "4.3.0"
+)
+
+lazy val configDependencies = Seq(
+  "com.github.pureconfig" %% "pureconfig" % "0.17.4"
 )
 
 assemblyMergeStrategy in assembly := {
