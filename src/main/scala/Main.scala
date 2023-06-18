@@ -16,7 +16,7 @@ import slick.lifted.TableQuery
 import scala.concurrent.ExecutionContextExecutor
 
 object Main extends App {
-  val host = "localhost"//todo сделать конфигурацию
+  lazy val config = ConfigSource.default.at("application").load[ApplicationConfig].getOrElse(ApplicationConfig.default)
   lazy val databaseName = "fixWearDb"
   val db = Database.forConfig(databaseName)
   val users = TableQuery[Users]
